@@ -6,7 +6,7 @@
 
 The dataset for image captioning generally consists of two inputs: image and text.
 
-![]()
+![](https://raw.githubusercontent.com/genigarus/Skunkworks/main/Oscar/asset/i4.png)
 
 The model used for image captioning, generally consist of a CNN model(ENCODER) that would produce a hidden state h.
 Then, it would decode this hidden state by using a LSTM(DECODER) and generate recursively each word of the caption. The problem with this model is that it is using the whole representation of the image denoted by h to predict the next word which would generally represent a portion of the image.
