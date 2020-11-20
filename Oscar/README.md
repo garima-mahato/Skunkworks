@@ -11,7 +11,7 @@ The dataset for image captioning generally consists of two inputs: image and tex
 The model used for image captioning, generally consist of a CNN model(ENCODER) that would produce a hidden state h.
 Then, it would decode this hidden state by using a LSTM(DECODER) and generate recursively each word of the caption. The problem with this model is that it is using the whole representation of the image denoted by h to predict the next word which would generally represent a portion of the image.
 
-![]()
+![](https://raw.githubusercontent.com/genigarus/Skunkworks/main/Oscar/asset/i5.png)
 
 To overcome this, attention mechanism was used to focus on each portion of the image while predicting next word. With an Attention mechanism, the image is first divided into n parts, and we compute with a Convolutional Neural Network (CNN) representations of each part h1,…, hn. When the RNN is generating a new word, the attention mechanism is focusing on the relevant part of the image, so the decoder only uses specific parts of the image.
 
@@ -35,3 +35,4 @@ These acts as labels for the alignment problems and hence the input now sent for
     2) Object Tags
     3) Text
 
+![](https://raw.githubusercontent.com/genigarus/Skunkworks/main/Oscar/asset/i1.PNG)
