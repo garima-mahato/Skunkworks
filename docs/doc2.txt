@@ -1,0 +1,38 @@
+r"""
+        Given a starting state, a step function, and an FSM adjacency matrix, apply Constrained
+        Beam Search to find most likely target sequences satisfying specified constraints in FSM.
+        .. note::
+            If your step function returns ``-inf`` for some log probabilities
+            (like if you're using a masked log-softmax) then some of the "best"
+            sequences returned may also have ``-inf`` log probability. Specifically
+            this happens when the beam size is smaller than the number of actions
+            with finite log probability (non-zero probability) returned by the step function.
+            Therefore if you're using a mask you may want to check the results from ``search``
+            and potentially discard sequences with non-finite log probability.
+        Parameters
+        ----------
+        start_predictions : torch.Tensor
+            A tensor containing the initial predictions with shape ``(batch_size, )``. These are
+            usually just ``@@BOUNDARY@@`` token indices.
+        start_state : ``Dict[str, torch.Tensor]``
+            The initial state passed to the ``step`` function. Each value of the state dict
+            should be a tensor of shape ``(batch_size, *)``, where ``*`` means any other
+            number of dimensions.
+        step : ``StepFunctionType``
+            A function that is responsible for computing the next most likely tokens, given the
+            current state and the predictions from the last time step. The function should accept
+            two arguments. The first being a tensor of shape ``(group_size,)``, representing the
+            index of the predicted tokens from the last time step, and the second being the
+            current state. The ``group_size`` will be ``batch_size * beam_size * num_fsm_states``
+            except in the initial step, for which it will just be ``batch_size``. The function is
+            expected to return a tuple, where the first element is a tensor of shape
+            ``(group_size, vocab_size)`` containing the log probabilities of the tokens for the
+            next step, and the second element is the updated state. The tensor in the state should
+            have shape ``(group_size, *)``, where ``*`` means any other number of dimensions.
+        Returns
+        -------
+        Tuple[torch.Tensor, torch.Tensor]
+            Tuple of ``(predictions, log_probabilities)``, where ``predictions``
+            has shape ``(batch_size, num_fsm_states, beam_size, max_steps)``
+            and ``log_probabilities`` has shape ``(batch_size, num_fsm_states, beam_size)``.
+        """
